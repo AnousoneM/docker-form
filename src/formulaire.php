@@ -33,9 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    if(!isset($_POST["cgu"])){
+        // si cgu non présen, on créé une erreur
+            $errors['cgu'] = 'Veuillez valider les CGU';
+    }
+    
 
     if(empty($errors)){
-        header("Location: confirmation.php");
+        // header("Location: confirmation.php");
     }
 
     
@@ -82,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="cgu" name="cgu">
-                        <label class="form-check-label" for="cgu">J'ai lu et j'accepte les CGU</label>
+                        <label class="form-check-label" for="cgu">J'ai lu et j'accepte les CGU</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["cgu"] ?? '' ?></span>
                     </div>
 
                     <button type="submit" class="btn btn-primary">S'inscrire</button>
