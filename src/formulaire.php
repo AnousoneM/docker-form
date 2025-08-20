@@ -1,6 +1,6 @@
 <?php
 
-var_dump($_POST);
+// var_dump($_POST);
 
 // Création de regeX
 $regName = "/^[a-zA-Zàèé\-]+$/";
@@ -18,11 +18,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $errors['lastname'] = 'Nom obligatoire';
         } else if (!preg_match($regName, $_POST["lastname"])) {
             // si ça ne respecte pas la regeX
-            $errors['lastname'] = '<script>alert("boom")</script>';
+            $errors['lastname'] = 'Caractère(s) non autorisé(s)';
         }
     }
 
-    var_dump($errors);
+    if (isset($_POST["email"])) {
+        // on va vérifier si c'est vide
+        if (empty($_POST["email"])) {
+            // si c'est vide, je créé une erreur dans mon tableau
+            $errors['email'] = 'Mail obligatoire';
+        } else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+            // si mail non valide, on créé une erreur
+            $errors['email'] = 'Mail non valide';
+        }
+    }
+
+
+    if(empty($errors)){
+        header("Location: confirmation.php");
+    }
+
+    
 }
 
 
@@ -60,8 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Adresse mail</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <label for="email" class="form-label">Adresse mail</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["email"] ?? '' ?></span>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $_POST["email"] ?? "" ?>">
                     </div>
 
                     <div class="mb-3 form-check">
