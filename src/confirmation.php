@@ -21,7 +21,9 @@
 
             <div class="col-6 text-center">
 
-                <p>Mail envoyé</p>
+                <p>Un mail de confirmation a été à l'adresse suivante :</p>
+                <p><span class="fw-bold"><?= $_GET['email'] ?? "john.doe@mail.com"?></span></p>
+                <a href="formulaire.php" class="btn btn-primary">Retour</a>
 
             </div>
 
